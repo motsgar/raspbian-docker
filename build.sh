@@ -2,6 +2,8 @@
 
 set -e
 
+sudo rm -rf rootfs rootfs.tar.gz
+
 sudo debootstrap --arch=arm64 --variant=minbase bookworm ./rootfs http://deb.debian.org/debian
 
 echo "deb http://archive.raspberrypi.com/debian/ bookworm main" | sudo tee ./rootfs/etc/apt/sources.list.d/raspi.list
@@ -9,4 +11,4 @@ curl -fsSL https://archive.raspberrypi.com/debian/raspberrypi.gpg.key | sudo gpg
 
 sudo tar --numeric-owner -czf rootfs.tar.gz -C ./rootfs .
 
-docker build --platform linux/aarch -t raspbian:bookworm .
+docker build --platform linux/aarch64 -t raspbian:bookworm .
